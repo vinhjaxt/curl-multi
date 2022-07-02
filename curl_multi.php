@@ -1,9 +1,15 @@
 <?php
 
-function curl_multi($requests = [])
+function curl_multi($requests = [], $mopts = [])
 {
   $chs = [];
   $mh = curl_multi_init();
+
+  if (is_array($mopts))
+    foreach ($mopts as $mopt => $mval) {
+      curl_multi_setopt($mh, $mopt, $mval);
+    }
+
   foreach ($requests as $rk => $request) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $request['url']);
