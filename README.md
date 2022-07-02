@@ -31,6 +31,10 @@ $resps = curl_multi([
       CURLOPT_STDERR => fopen('php://stderr', 'a+'),
     ]
   ],
+], [
+  CURLMOPT_MAX_TOTAL_CONNECTIONS => 2,
+  CURLMOPT_MAX_HOST_CONNECTIONS => 2,
+  CURLMOPT_PIPELINING => 2,
 ]);
 
 foreach ($resps as $k => $resp) {
