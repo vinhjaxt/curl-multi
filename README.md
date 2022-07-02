@@ -1,6 +1,6 @@
 # curl-multi
 PHP curl multi
-```
+```php
 
 $resps = curl_multi([
   [
