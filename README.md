@@ -131,7 +131,7 @@ do {
 do {
   $startTime = microtime(true);
   $count = 0;
-  $resps = curl_multi_parallel(function ($resp) use (&$count) {
+  curl_multi_parallel_func(function ($resp) use (&$count) {
     var_dump($resp);
     if ($count == 2) {
       var_dump('AAAAAAAAAAAAAAAAAAAAAAAAA');
