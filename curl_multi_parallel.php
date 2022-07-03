@@ -111,6 +111,10 @@ function curl_multi_parallel($resp_fn, $requests = [], $parallel = 10, $mopts = 
   $mh = curl_multi_init();
 
   curl_multi_setopt($mh, CURLMOPT_MAXCONNECTS, $parallel);
+  if (is_array($mopts))
+   foreach ($mopts as $mopt => $mval) {
+     curl_multi_setopt($mh, $mopt, $mval);
+   }
 
   $request_map = [];
   for ($transfers = 0; $transfers < $parallel; $transfers++) {
