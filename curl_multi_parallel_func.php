@@ -106,7 +106,7 @@ function response_curl_multi($mh_info, $request_map)
   ];
 }
 
-function curl_multi_parallel($resp_fn, $req_fn, $parallel = 10, $mopts = [])
+function curl_multi_parallel_func($resp_fn, $req_fn, $parallel = 10, $mopts = [])
 {
   $mh = curl_multi_init();
 
