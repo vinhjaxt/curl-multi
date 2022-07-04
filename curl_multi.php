@@ -89,7 +89,9 @@ function curl_multi($requests = [], $mopts = [])
 
   // execute the multi handle
   do {
-    $status = curl_multi_exec($mh, $active);
+    do {
+      $status = curl_multi_exec($mh, $active);
+    } while ($status == CURLM_CALL_MULTI_PERFORM);
     if ($active) {
       // wait a short time for more activity
       curl_multi_select($mh);
