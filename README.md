@@ -128,6 +128,7 @@ do {
 
 ## Parallel func
 ```php
+include_once './curl_multi_parallel_func.php';
 do {
   $startTime = microtime(true);
   $count = 0;
