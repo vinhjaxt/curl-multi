@@ -119,6 +119,7 @@ function curl_multi_parallel($resp_fn, $requests = [], $parallel = 10, $mopts = 
   $request_map = [];
   for ($transfers = 0; $transfers < $parallel; $transfers++) {
     $request = array_pop($requests);
+    if (!$request) continue;
     $ch = request_curl($request);
     $ch_id = spl_object_id($ch);
     $request_map[$ch_id] = $request;
