@@ -119,7 +119,7 @@ function curl_multi_parallel_func($resp_fn, $req_fn, $parallel = 10, $mopts = []
   $request_map = [];
   for ($transfers = count($request_map); $transfers < $parallel; $transfers++) {
     $request = $req_fn();
-    if (!$request) continue;
+    if (!$request) break;
     $ch = request_curl($request);
     $ch_id = spl_object_id($ch);
     $request_map[$ch_id] = $request;
