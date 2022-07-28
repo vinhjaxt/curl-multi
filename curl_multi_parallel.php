@@ -75,7 +75,7 @@ function request_curl($request = [])
   return $ch;
 }
 
-function response_curl_multi($mh_info, $request_map)
+function response_curl_multi($mh_info, &$request_map)
 {
   $ch = $mh_info['handle'];
   $ch_id = spl_object_id($ch);
@@ -106,7 +106,7 @@ function response_curl_multi($mh_info, $request_map)
   ];
 }
 
-function curl_multi_parallel($resp_fn, $requests = [], $parallel = 10, $mopts = [])
+function curl_multi_parallel($resp_fn, &$requests = [], $parallel = 10, $mopts = [])
 {
   $mh = curl_multi_init();
 
@@ -117,9 +117,9 @@ function curl_multi_parallel($resp_fn, $requests = [], $parallel = 10, $mopts = 
    }
 
   $request_map = [];
-  for ($transfers = 0; $transfers < $parallel; $transfers++) {
+  for ($transfers = count($request_map); $transfers < $parallel; $transfers++) {
     $request = array_pop($requests);
-    if (!$request) continue;
+    if (!$request) break;
     $ch = request_curl($request);
     $ch_id = spl_object_id($ch);
     $request_map[$ch_id] = $request;
@@ -150,17 +150,21 @@ function curl_multi_parallel($resp_fn, $requests = [], $parallel = 10, $mopts = 
       curl_multi_remove_handle($mh, $mh_info['handle']);
 
       $resp_fn($resp);
+    } while ($queued_messages > 0);
 
-      // add another request
-      if (count($requests) > 0) {
+    // add another request
+    if (count($requests) > 0) {
+      for ($transfers = count($request_map); $transfers < $parallel; $transfers++) {
         $request = array_pop($requests);
+        if (!$request) break;
         $ch = request_curl($request);
         $ch_id = spl_object_id($ch);
         $request_map[$ch_id] = $request;
         curl_multi_add_handle($mh, $ch);
-        $active = 1; // continue loop
       }
-    } while ($queued_messages > 0);
+    }
+
+    if (!$active) $active = count($request_map); // continue loop
   } while ($active && $status == CURLM_OK);
 
   curl_multi_close($mh);
