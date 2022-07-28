@@ -52,7 +52,7 @@ while (true) {
   ], [
     CURLMOPT_MAX_TOTAL_CONNECTIONS => 3,
     CURLMOPT_MAX_HOST_CONNECTIONS => 3,
-    CURLMOPT_PIPELINING => 2,
+    CURLMOPT_PIPELINING => CURLPIPE_MULTIPLEX,
   ]);
 
   echo 'Done: ', microtime(true) - $lastTime, PHP_EOL;
@@ -118,7 +118,7 @@ do {
   ], 2, [
     CURLMOPT_MAX_TOTAL_CONNECTIONS => 3,
     CURLMOPT_MAX_HOST_CONNECTIONS => 3,
-    CURLMOPT_PIPELINING => 2,
+    CURLMOPT_PIPELINING => CURLPIPE_MULTIPLEX,
   ]);
 
   echo 'Done: ', microtime(true) - $lastTime, PHP_EOL;
@@ -160,7 +160,7 @@ do {
   }, 2, [
     CURLMOPT_MAX_TOTAL_CONNECTIONS => 3,
     CURLMOPT_MAX_HOST_CONNECTIONS => 3,
-    CURLMOPT_PIPELINING => 2,
+    CURLMOPT_PIPELINING => CURLPIPE_MULTIPLEX,
   ]);
 
   echo 'Done: ', microtime(true) - $startTime, PHP_EOL;
