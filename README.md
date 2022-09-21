@@ -68,7 +68,7 @@ include_once 'curl_multi_parallel.php';
 
 $lastTime = microtime(true);
 do {
-  $resps = curl_multi_parallel(function ($resp) {
+  curl_multi_parallel(function ($resp) {
     var_dump($resp);
   }, [
     [
