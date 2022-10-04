@@ -70,6 +70,7 @@ $lastTime = microtime(true);
 do {
   curl_multi_parallel(function ($resp) {
     var_dump($resp);
+    if ($resp['error']) return $resp['request']; // retry
   }, [
     [
       'headers' => [
