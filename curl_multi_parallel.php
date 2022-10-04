@@ -112,9 +112,9 @@ function curl_multi_parallel($resp_fn, &$requests = [], $parallel = 10, $mopts =
 
   curl_multi_setopt($mh, CURLMOPT_MAXCONNECTS, $parallel);
   if (is_array($mopts))
-   foreach ($mopts as $mopt => $mval) {
-     curl_multi_setopt($mh, $mopt, $mval);
-   }
+    foreach ($mopts as $mopt => $mval) {
+      curl_multi_setopt($mh, $mopt, $mval);
+    }
 
   $request_map = [];
   for ($transfers = count($request_map); $transfers < $parallel; $transfers++) {
@@ -149,7 +149,16 @@ function curl_multi_parallel($resp_fn, &$requests = [], $parallel = 10, $mopts =
       // close the handles
       curl_multi_remove_handle($mh, $mh_info['handle']);
 
-      $resp_fn($resp);
+      $ret = $resp_fn($resp);
+      if ($ret && is_array($ret)) {
+        if ($ret['url'] || $ret['opts']) {
+          $requests[] = $ret;
+        } else {
+          foreach ($ret as $req) {
+            $requests[] = $req;
+          }
+        }
+      }
     } while ($queued_messages > 0);
 
     // add another request
