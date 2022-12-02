@@ -4,6 +4,7 @@ function request_curl($request = [])
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $request['url']);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
   curl_setopt($ch, CURLOPT_HEADER, true);
   curl_setopt($ch, CURLOPT_AUTOREFERER, true);
   curl_setopt($ch, CURLOPT_ENCODING, '');
