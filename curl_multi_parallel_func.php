@@ -6,9 +6,15 @@ function request_curl($request = [])
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HEADER, true);
   curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+  curl_setopt($ch, CURLOPT_ENCODING, '');
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:993.0) Gecko/20100101 Firefox/993.0');
   curl_setopt($ch, CURLOPT_PATH_AS_IS, true);
-  curl_setopt($ch, CURLOPT_DNS_SERVERS, '1.1.1.1,8.8.8.8,1.0.0.1,8.8.4.4,1.1.1.2');
+  if (@$request['doh']) {
+    // 'https://1.1.1.1/dns-query'
+    curl_setopt($ch, CURLOPT_DOH_URL, $request['doh']);
+  } else {
+    curl_setopt($ch, CURLOPT_DNS_SERVERS, '1.1.1.1,8.8.8.8,1.0.0.1,8.8.4.4');
+  }
   curl_setopt($ch, CURLOPT_VERBOSE, false);
   if (defined('CURLOPT_SAFE_UPLOAD'))
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
